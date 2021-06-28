@@ -11,10 +11,9 @@ const sequelize = new Sequelize(
 
 const models = {
   User: sequelize.import('./user'),
-  Category: sequelize.import('./category'),
-  Product: sequelize.import('./product'),
-  ProductHistory: sequelize.import('./productHistory'),
-  Event: sequelize.import('./event'),
+  Commande: sequelize.import('./commande'),
+  CommandeHistory: sequelize.import('./commandeHistory'),
+  Config: sequelize.import('./config'),
 };
 
 Object.keys(models).forEach(key => {

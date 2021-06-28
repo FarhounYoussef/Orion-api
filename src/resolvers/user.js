@@ -1,6 +1,10 @@
+import {
+  AuthenticationError,
+  ForbiddenError,
+  UserInputError,
+} from 'apollo-server';
 import jwt from 'jsonwebtoken';
-import moment from "moment";
-import { AuthenticationError, UserInputError } from 'apollo-server';
+import moment from 'moment';
 
 const createToken = async (user, secret) => {
   const { id, username, role } = user;
@@ -9,13 +13,13 @@ const createToken = async (user, secret) => {
 
 export default {
   Query: {
-    users: (parent, { where }, { models, user }) => {
+    users: (_parent, { where }, { models, user }) => {
       if (!user) {
         throw new ForbiddenError('Not authenticated as user.');
       }
       return models.User.findAll({ where });
     },
-    user: (parent, { id }, { models, user }) => {
+    user: (_parent, { id }, { models, user }) => {
       if (!user) {
         throw new ForbiddenError('Not authenticated as user.');
       }
@@ -23,20 +27,20 @@ export default {
     },
   },
   Mutation: {
-    createUser: (parent, { data }, { models, user }) => {
-      if (!user) {
-        throw new ForbiddenError('Not authenticated as user.');
-      }
+    createUser: (_parent, { data }, { models, user }) => {
+      // if (!user) {
+      //   throw new ForbiddenError('Not authenticated as user.');
+      // }
       return models.User.create(data);
     },
-    updateUser: async (parent, { id, data }, { models, user }) => {
+    updateUser: async (_parent, { id, data }, { models, user }) => {
       if (!user) {
         throw new ForbiddenError('Not authenticated as user.');
       }
       const userInstance = await models.User.findByPk(id);
       return userInstance.update(data, { context: { user } });
     },
-    deleteUser: async (parent, { id }, { models, user }) => {
+    deleteUser: async (_parent, { id }, { models, user }) => {
       if (!user) {
         throw new ForbiddenError('Not authenticated as user.');
       }
@@ -44,12 +48,12 @@ export default {
       return { id };
     },
     signIn: async (
-      parent,
-      { username, password },
+      _parent,
+      { email, password },
       { models, secret },
     ) => {
       const user = await models.User.findOne({
-        where: { username },
+        where: { email },
       });
 
       if (!user) {
@@ -61,20 +65,20 @@ export default {
       if (!isValid) {
         throw new AuthenticationError('Invalid password.');
       }
-      const token = createToken(user, secret)
+      const token = createToken(user, secret);
       const { password: toRemove, ...rest } = user.dataValues;
       return { token, user: rest };
     },
   },
   User: {
     fullname: (parent) => {
-      return `${parent.firstname} ${parent.lastname}`
+      return `${parent.firstname} ${parent.lastname}`;
     },
     createdAt: (parent) => {
-      return moment(parent.createdAt).format('YYYY-MM-DD HH:mm:ss Z')
+      return moment(parent.createdAt).format('YYYY-MM-DD HH:mm:ss Z');
     },
     updatedAt: (parent) => {
-      return moment(parent.updatedAt).format('YYYY-MM-DD HH:mm:ss Z')
-    }
+      return moment(parent.updatedAt).format('YYYY-MM-DD HH:mm:ss Z');
+    },
   },
 };

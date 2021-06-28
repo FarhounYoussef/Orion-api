@@ -1,13 +1,11 @@
 import userResolvers from './user';
-import categoryResolvers from './category';
-import productResolvers from './product';
-import productHistoryResolvers from './productHistory';
-import eventResolvers from './event';
+import commandeResolvers from './commande';
+import commandeHistoryResolvers from './commandeHistory';
+import configResolvers from './config';
 
 export default [
     userResolvers,
-    categoryResolvers,
-    productResolvers,
-    productHistoryResolvers,
-    eventResolvers
+    configResolvers,
+    commandeResolvers,
+    commandeHistoryResolvers,
 ];

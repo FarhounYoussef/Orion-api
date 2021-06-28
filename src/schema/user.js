@@ -12,15 +12,10 @@ export default gql`
   }
 
   extend type Mutation {
-    createUser(
-      data: UserInput!
-    ): User
-    updateUser(
-      id: ID!
-      data: UserInput!
-    ): User
+    createUser(data: UserInput!): User
+    updateUser(id: ID!, data: UserInput!): User
     deleteUser(id: ID!): User
-    signIn(username: String!, password: String!): Token!
+    signIn(email: String!, password: String!): Token!
   }
 
   type User {
@@ -28,9 +23,10 @@ export default gql`
     fullname: String
     firstname: String
     lastname: String
-    username: String!
-    password: String!
-    role: String!
+    email: String
+    address: String
+    password: String
+    role: String
     createdAt: String
     updatedAt: String
   }
@@ -39,7 +35,8 @@ export default gql`
     id: ID
     firstname: String
     lastname: String
-    username: String
+    email: String
+    address: String
     password: String
     role: String
   }

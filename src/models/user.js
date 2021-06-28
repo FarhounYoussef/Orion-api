@@ -8,7 +8,7 @@ const user = (sequelize, DataTypes) => {
     lastname: {
       type: DataTypes.STRING,
     },
-    username: {
+    email: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
@@ -16,9 +16,12 @@ const user = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    address: {
+      type: DataTypes.STRING,
+    },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: {
         notEmpty: true,
         len: [7, 42],
@@ -26,24 +29,26 @@ const user = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.ENUM,
-      values: ['Admin','User'],
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      values: ['Admin', 'User'],
+      defaultValue: 'User',
     },
-  }); 
-  
-  User.beforeCreate(async user => {
+  });
+
+  User.associate = (models) => {
+    User.hasMany(models.Commande);
+  };
+
+  User.beforeCreate(async (user) => {
     user.password = await user.generatePasswordHash();
   });
 
-  User.prototype.generatePasswordHash = function() {
+  User.prototype.generatePasswordHash = function () {
+    if (!this.password) return;
     const saltRounds = 10;
     return bcrypt.hash(this.password, saltRounds);
   };
 
-  User.prototype.validatePassword = function(password) {
+  User.prototype.validatePassword = function (password) {
     return bcrypt.compare(password, this.password);
   };
 

@@ -1,10 +1,9 @@
 import { gql } from 'apollo-server-express';
 
 import userSchema from './user';
-import categorySchema from './category';
-import productSchema from './product';
-import productHistorySchema from './productHistory';
-import eventSchema from './event';
+import configSchema from './config';
+import commandeSchema from './commande';
+import commandeHistorySchema from './commandeHistory';
 
 const linkSchema = gql`
   type Query {
@@ -23,8 +22,7 @@ const linkSchema = gql`
 export default [
   linkSchema,
   userSchema,
-  categorySchema,
-  productSchema,
-  productHistorySchema,
-  eventSchema
+  configSchema,
+  commandeSchema,
+  commandeHistorySchema,
 ];
