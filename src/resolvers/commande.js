@@ -27,11 +27,14 @@ export default {
         defaults: userData,
       });
       const config = await models.Config.create(configData);
-      return models.Commande.create({
-        userId: user[0].id,
-        configId: config.id,
-        ...data,
-      });
+      return models.Commande.create(
+        {
+          userId: user[0].id,
+          configId: config.id,
+          ...data,
+        },
+        { context: { user: user[0].dataValues } },
+      );
     },
     updateCommande: async (
       _parent,
