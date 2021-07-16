@@ -52,6 +52,9 @@ export default (sequelize, DataTypes) => {
     text: {
       type: DataTypes.STRING,
     },
+    bottomText: {
+      type: DataTypes.STRING,
+    },
     latitude: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -78,22 +81,13 @@ export default (sequelize, DataTypes) => {
     },
     layout: {
       type: DataTypes.ENUM,
-      values: ['Portrait','Square', 'Landscape'],
+      values: ['PORTRAIT', 'SQUARE', 'LANDSCAPE'],
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
   });
-
-  // Config.associate = models => {
-  //   Config.belongsTo(models.Commande, {
-  //     foreignKey: {
-  //       name: 'commandeId',
-  //       allowNull: false
-  //     }
-  //   });
-  // };
 
   return Config;
 };

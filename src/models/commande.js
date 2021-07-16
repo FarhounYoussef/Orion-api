@@ -22,6 +22,7 @@ export default (sequelize, DataTypes) => {
         'IN_PROGRESS',
         'IN_PREPARATION',
         'READY_FOR_EXPEDITION',
+        'DELIVRED',
       ],
       defaultValue: 'PENDING',
       allowNull: false,
@@ -46,15 +47,19 @@ export default (sequelize, DataTypes) => {
 
   Commande.addListener = (models) => {
     Commande.afterCreate((commande, options) => {
-      console.log('1', commande.dataValues);
-      console.log('2', options.context);
       const message = {
-        from: 'orion@contan.com',
+        from: 'orion@contact.com',
         to: options.context.user.email,
         subject: 'Orion: YOUR NIGHT SKY',
         html: template,
+        attachments: [
+          {
+            filename: 'image.png',
+            path: options.context.preview64,
+            cid: 'preview@orion.ee',
+          },
+        ],
       };
-      console.log('message', message);
       emailService.sendMail(message, function (err, info) {
         if (err) {
           console.log(err);
@@ -62,11 +67,6 @@ export default (sequelize, DataTypes) => {
           console.log(info);
         }
       });
-      // models.CommandeHistory.create({
-      //   commandeId: commande.dataValues.id,
-      //   userId: options.context.user.id,
-      //   log: commande.dataValues,
-      // });
     });
     Commande.afterUpdate((commande, options) => {
       models.CommandeHistory.create({

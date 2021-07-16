@@ -29,8 +29,8 @@ const user = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.ENUM,
-      values: ['Admin', 'User'],
-      defaultValue: 'User',
+      values: ['ADMIN', 'USER'],
+      defaultValue: 'USER',
     },
   });
 

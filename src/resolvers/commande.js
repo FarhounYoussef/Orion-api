@@ -19,7 +19,14 @@ export default {
   Mutation: {
     createCommande: async (
       _parent,
-      { data: { user: userData, config: configData, ...data } },
+      {
+        data: {
+          user: userData,
+          config: configData,
+          preview64,
+          ...data
+        },
+      },
       { models },
     ) => {
       const user = await models.User.findOrCreate({
@@ -33,7 +40,7 @@ export default {
           configId: config.id,
           ...data,
         },
-        { context: { user: user[0].dataValues } },
+        { context: { user: user[0].dataValues, preview64 } },
       );
     },
     updateCommande: async (

@@ -1,6 +1,5 @@
-import moment from 'moment';
 import { ForbiddenError } from 'apollo-server';
-
+import moment from 'moment';
 
 export default {
   Query: {
@@ -18,7 +17,11 @@ export default {
     },
   },
   Mutation: {
-    createConfig: (_parent, { data: objectData }, { models, user }) => {
+    createConfig: (
+      _parent,
+      { data: objectData },
+      { models, user },
+    ) => {
       if (!user) {
         throw new ForbiddenError('Not authenticated as user.');
       }
@@ -48,13 +51,13 @@ export default {
     },
   },
   Config: {
-    date: () => {
-      return moment().format('YYYY-MM-DD HH:mm:ss Z');
+    date: (parent) => {
+      return moment(parent.date).format('YYYY-MM-DD');
     },
-    createdAt: parent => {
+    createdAt: (parent) => {
       return moment(parent.createdAt).format('YYYY-MM-DD HH:mm:ss Z');
     },
-    updatedAt: parent => {
+    updatedAt: (parent) => {
       return moment(parent.updatedAt).format('YYYY-MM-DD HH:mm:ss Z');
     },
   },

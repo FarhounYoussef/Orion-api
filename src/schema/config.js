@@ -7,13 +7,8 @@ export default gql`
   }
 
   extend type Mutation {
-    createConfig(
-      data: ConfigInput!
-    ): Config
-    updateConfig(
-      id: ID!
-      data: ConfigInput!
-    ): Config
+    createConfig(data: ConfigInput!): Config
+    updateConfig(id: ID!, data: ConfigInput!): Config
     deleteConfig(id: ID!): Config
   }
 
@@ -27,6 +22,7 @@ export default gql`
     location: String
     date: String
     text: String
+    bottomText: String
     latitude: String
     longitude: String
     showTime: Boolean
@@ -46,11 +42,11 @@ export default gql`
     location: String
     date: String
     text: String
+    bottomText: String
     latitude: String
     longitude: String
     showTime: Boolean
     time: String
     layout: String
   }
-
 `;

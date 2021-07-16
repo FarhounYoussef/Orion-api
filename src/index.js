@@ -1,16 +1,17 @@
-import 'dotenv/config';
-
-import http from 'http';
+import {
+  ApolloServer,
+  AuthenticationError,
+} from 'apollo-server-express';
 import cors from 'cors';
+import 'dotenv/config';
 import express from 'express';
-import { ApolloServer, AuthenticationError } from 'apollo-server-express';
-
+import http from 'http';
 import jwt from 'jsonwebtoken';
 import models, { sequelize } from './models';
-import schema from './schema';
 import resolvers from './resolvers';
+import schema from './schema';
 
-const getUser = async req => {
+const getUser = async (req) => {
   const { authorization } = req.headers;
   const token = authorization && authorization.replace('Bearer ', '');
 
@@ -41,9 +42,9 @@ const server = new ApolloServer({
         models,
         user,
         secret: process.env.SECRET,
-      }
+      };
     }
-  }
+  },
 });
 
 const app = express();

@@ -30,5 +30,6 @@ export default gql`
     price: Float
     user: UserInput
     config: ConfigInput
+    preview64: String
   }
 `;

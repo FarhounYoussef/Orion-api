@@ -2,8 +2,8 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   enum valideRole {
-    Admin
-    User
+    ADMIN
+    USER
   }
 
   extend type Query {
