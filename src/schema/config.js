@@ -28,6 +28,8 @@ export default gql`
     showTime: Boolean
     time: String
     layout: String
+    size: String
+    borderColor: String
     createdAt: String
     updatedAt: String
   }
@@ -48,5 +50,7 @@ export default gql`
     showTime: Boolean
     time: String
     layout: String
+    size: String
+    borderColor: String
   }
 `;

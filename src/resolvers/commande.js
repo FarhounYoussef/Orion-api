@@ -34,10 +34,14 @@ export default {
         defaults: userData,
       });
       const config = await models.Config.create(configData);
+      const price = await models.Price.findAll({
+        where: { layout: configData.layout },
+      });
       return models.Commande.create(
         {
           userId: user[0].id,
           configId: config.id,
+          price: price[0].dataValues.price,
           ...data,
         },
         { context: { user: user[0].dataValues, preview64 } },

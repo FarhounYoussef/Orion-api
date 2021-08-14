@@ -87,6 +87,15 @@ export default (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    size: {
+      type: DataTypes.ENUM,
+      values: ['1', '1.5', '2'],
+      defaultValue: '1',
+    },
+    borderColor: {
+      type: DataTypes.STRING,
+      defaultValue: '#CCCCCC',
+    },
   });
 
   return Config;

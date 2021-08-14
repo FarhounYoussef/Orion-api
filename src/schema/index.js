@@ -1,9 +1,9 @@
 import { gql } from 'apollo-server-express';
-
-import userSchema from './user';
-import configSchema from './config';
 import commandeSchema from './commande';
 import commandeHistorySchema from './commandeHistory';
+import configSchema from './config';
+import priceSchema from './price';
+import userSchema from './user';
 
 const linkSchema = gql`
   type Query {
@@ -25,4 +25,5 @@ export default [
   configSchema,
   commandeSchema,
   commandeHistorySchema,
+  priceSchema,
 ];

@@ -14,15 +14,16 @@ const models = {
   Commande: sequelize.import('./commande'),
   CommandeHistory: sequelize.import('./commandeHistory'),
   Config: sequelize.import('./config'),
+  Price: sequelize.import('./price'),
 };
 
-Object.keys(models).forEach(key => {
+Object.keys(models).forEach((key) => {
   if ('associate' in models[key]) {
     models[key].associate(models);
   }
 });
 
-Object.keys(models).forEach(key => {
+Object.keys(models).forEach((key) => {
   if ('addListener' in models[key]) {
     models[key].addListener(models);
   }

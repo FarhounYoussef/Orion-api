@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 
 const transport = nodemailer.createTransport({
+  name: 'smtp.mailtrap.io',
   host: 'smtp.mailtrap.io',
   port: 2525,
   auth: {
