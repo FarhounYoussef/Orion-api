@@ -30,9 +30,9 @@ export default (sequelize, DataTypes) => {
   });
 
   Commande.associate = (models) => {
-    Commande.belongsTo(models.User, {
+    Commande.belongsTo(models.Client, {
       foreignKey: {
-        name: 'userId',
+        name: 'clientId',
         allowNull: false,
       },
     });
@@ -49,7 +49,7 @@ export default (sequelize, DataTypes) => {
     Commande.afterCreate((commande, options) => {
       const message = {
         from: 'orion@contact.com',
-        to: options.context.user.email,
+        to: options.context.client.email,
         subject: 'Orion: YOUR NIGHT SKY',
         html: template,
         attachments: [

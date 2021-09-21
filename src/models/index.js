@@ -15,6 +15,7 @@ const models = {
   CommandeHistory: sequelize.import('./commandeHistory'),
   Config: sequelize.import('./config'),
   Price: sequelize.import('./price'),
+  Client: sequelize.import('./client'),
 };
 
 Object.keys(models).forEach((key) => {

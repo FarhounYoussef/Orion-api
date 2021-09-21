@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server-express';
+import clientSchema from './client';
 import commandeSchema from './commande';
 import commandeHistorySchema from './commandeHistory';
 import configSchema from './config';
@@ -22,6 +23,7 @@ const linkSchema = gql`
 export default [
   linkSchema,
   userSchema,
+  clientSchema,
   configSchema,
   commandeSchema,
   commandeHistorySchema,

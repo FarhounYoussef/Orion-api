@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
     },
     layout: {
       type: DataTypes.ENUM,
-      values: ['PORTRAIT', 'SQUARE', 'LANDSCAPE'],
+      values: ['DIGITAL', 'CANVAS', 'FRAME'],
       allowNull: false,
       validate: {
         notEmpty: true,

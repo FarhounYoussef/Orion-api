@@ -17,7 +17,7 @@ export default gql`
     ref: String
     status: String
     price: Float
-    user: User
+    client: Client
     config: Config
     commandeHistories: [CommandeHistory]
     createdAt: String
@@ -28,7 +28,7 @@ export default gql`
     ref: String
     status: String
     price: Float
-    user: UserInput
+    client: ClientInput
     config: ConfigInput
     preview64: String
   }

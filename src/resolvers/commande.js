@@ -21,7 +21,7 @@ export default {
       _parent,
       {
         data: {
-          user: userData,
+          client: clientData,
           config: configData,
           preview64,
           ...data
@@ -29,9 +29,9 @@ export default {
       },
       { models },
     ) => {
-      const user = await models.User.findOrCreate({
-        where: { email: userData.email },
-        defaults: userData,
+      const client = await models.Client.findOrCreate({
+        where: { email: clientData.email },
+        defaults: clientData,
       });
       const config = await models.Config.create(configData);
       const price = await models.Price.findAll({
@@ -39,12 +39,12 @@ export default {
       });
       return models.Commande.create(
         {
-          userId: user[0].id,
+          clientId: client[0].id,
           configId: config.id,
           price: price[0].dataValues.price,
           ...data,
         },
-        { context: { user: user[0].dataValues, preview64 } },
+        { context: { client: client[0].dataValues, preview64 } },
       );
     },
     updateCommande: async (
@@ -79,8 +79,8 @@ export default {
     config: (parent, _args, { models }) => {
       return models.Config.findByPk(parent.configId);
     },
-    user: (parent, _args, { models }) => {
-      return models.User.findByPk(parent.userId);
+    client: (parent, _args, { models }) => {
+      return models.Client.findByPk(parent.clientId);
     },
     commandeHistories: (parent, _args, { models }) => {
       return models.CommandeHistory.findAll({
