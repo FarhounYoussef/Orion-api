@@ -1,3 +1,4 @@
+import clientResolvers from './client';
 import commandeResolvers from './commande';
 import commandeHistoryResolvers from './commandeHistory';
 import configResolvers from './config';
@@ -10,4 +11,5 @@ export default [
   commandeResolvers,
   commandeHistoryResolvers,
   priceResolvers,
+  clientResolvers,
 ];

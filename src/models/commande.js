@@ -1,5 +1,5 @@
-import emailService from '../services/email';
-import template from '../services/templates/exemple';
+import moment from 'moment';
+import { sendEmail } from '../services/email';
 
 export default (sequelize, DataTypes) => {
   const Commande = sequelize.define('commande', {
@@ -47,25 +47,26 @@ export default (sequelize, DataTypes) => {
 
   Commande.addListener = (models) => {
     Commande.afterCreate((commande, options) => {
-      const message = {
-        from: 'orion@contact.com',
-        to: options.context.client.email,
-        subject: 'Orion: YOUR NIGHT SKY',
-        html: template,
-        attachments: [
+      sendEmail({
+        templateId: 1,
+        to: [
           {
-            filename: 'image.png',
-            path: options.context.preview64,
-            cid: 'preview@orion.ee',
+            email: options.context.client.email,
+            fullname: `${options.context.client.firstname} ${options.context.client.lastname}`,
           },
         ],
-      };
-      emailService.sendMail(message, function (err, info) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(info);
-        }
+        subject: 'Orion: YOUR NIGHT SKY',
+        params: {
+          NOM: options.context.client.firstname,
+          PRENOM: options.context.client.lastname,
+          TIME_LIMIT: '15',
+          TOTAL_PRICE: commande.dataValues.price,
+          ORDER_NUM: commande.dataValues.ref,
+          ORDER_DATE: moment(commande.dataValues.createdAt).format(
+            'YYYY-MM-DD',
+          ),
+          IMAGE_PREVIEW: options.context.preview64,
+        },
       });
     });
     Commande.afterUpdate((commande, options) => {
