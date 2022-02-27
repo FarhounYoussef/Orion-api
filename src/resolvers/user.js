@@ -28,9 +28,9 @@ export default {
   },
   Mutation: {
     createUser: (_parent, { data }, { models, user }) => {
-      // if (!user) {
-      //   throw new ForbiddenError('Not authenticated as user.');
-      // }
+      if (!user) {
+        throw new ForbiddenError('Not authenticated as user.');
+      }
       return models.User.create(data);
     },
     updateUser: async (_parent, { id, data }, { models, user }) => {

@@ -1,5 +1,6 @@
 import { ForbiddenError } from 'apollo-server';
 import moment from 'moment';
+import { decrypt } from '../utils/helpers';
 
 export default {
   Query: {
@@ -9,11 +10,15 @@ export default {
       }
       return models.Commande.findAll({ where });
     },
-    commande: (_parent, { id }, { models, user }) => {
-      if (!user) {
-        throw new ForbiddenError('Not authenticated as user.');
-      }
-      return models.Commande.findByPk(id);
+    commande: async (
+      _parent,
+      { where: { ref } },
+      { models, user },
+    ) => {
+      const result = await models.Commande.findOne({
+        where: { ref },
+      });
+      return result;
     },
   },
   Mutation: {
@@ -29,22 +34,19 @@ export default {
       },
       { models },
     ) => {
-      const client = await models.Client.findOrCreate({
-        where: { email: clientData.email },
-        defaults: clientData,
-      });
+      const client = await models.Client.create(clientData);
       const config = await models.Config.create(configData);
-      const price = await models.Price.findAll({
-        where: { layout: configData.layout },
+      const price = await models.Price.findOne({
+        where: { layout: configData.layout, size: configData.size },
       });
       return models.Commande.create(
         {
-          clientId: client[0].id,
+          clientId: client.id,
           configId: config.id,
-          price: price[0].dataValues.price,
+          price: price.dataValues.price,
           ...data,
         },
-        { context: { client: client[0].dataValues, preview64 } },
+        { context: { client: client.dataValues, preview64 } },
       );
     },
     updateCommande: async (

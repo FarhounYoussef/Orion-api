@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
   const Config = sequelize.define('config', {
-    background: {
+    backgroundColor: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -14,21 +14,21 @@ export default (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-    withConstellations: {
+    isConstellation: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    withGrid: {
+    isGraticule: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    withMoon: {
+    isMilky: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       validate: {
@@ -49,7 +49,7 @@ export default (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-    text: {
+    topText: {
       type: DataTypes.STRING,
     },
     bottomText: {

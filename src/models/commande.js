@@ -1,5 +1,5 @@
-import moment from 'moment';
 import { sendEmail } from '../services/email';
+import { getDraftOrderMail, getOrderMail } from '../utils/helpers';
 
 export default (sequelize, DataTypes) => {
   const Commande = sequelize.define('commande', {
@@ -13,6 +13,10 @@ export default (sequelize, DataTypes) => {
     price: {
       type: DataTypes.FLOAT,
       allowNull: true,
+    },
+    isDraft: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     status: {
       type: DataTypes.ENUM,
@@ -46,28 +50,19 @@ export default (sequelize, DataTypes) => {
   };
 
   Commande.addListener = (models) => {
-    Commande.afterCreate((commande, options) => {
-      sendEmail({
-        templateId: 1,
-        to: [
-          {
-            email: options.context.client.email,
-            fullname: `${options.context.client.firstname} ${options.context.client.lastname}`,
-          },
-        ],
-        subject: 'Orion: YOUR NIGHT SKY',
-        params: {
-          NOM: options.context.client.firstname,
-          PRENOM: options.context.client.lastname,
-          TIME_LIMIT: '15',
-          TOTAL_PRICE: commande.dataValues.price,
-          ORDER_NUM: commande.dataValues.ref,
-          ORDER_DATE: moment(commande.dataValues.createdAt).format(
-            'YYYY-MM-DD',
-          ),
-          IMAGE_PREVIEW: options.context.preview64,
-        },
-      });
+    Commande.afterCreate(async (commande, options) => {
+      const mailContent = commande.dataValues.isDraft
+        ? await getDraftOrderMail({
+            commande: commande.dataValues,
+            client: options.context.client,
+            preview64: options.context.preview64,
+          })
+        : await getOrderMail({
+            commande: commande.dataValues,
+            client: options.context.client,
+            preview64: options.context.preview64,
+          });
+      sendEmail(mailContent);
     });
     Commande.afterUpdate((commande, options) => {
       models.CommandeHistory.create({

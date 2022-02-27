@@ -14,14 +14,14 @@ export default gql`
 
   type Config {
     id: ID
-    background: String
+    backgroundColor: String
     onWhite: Boolean
-    withConstellations: Boolean
-    withGrid: Boolean
-    withMoon: Boolean
+    isConstellation: Boolean
+    isGraticule: Boolean
+    isMilky: Boolean
     location: String
     date: String
-    text: String
+    topText: String
     bottomText: String
     latitude: String
     longitude: String
@@ -36,14 +36,14 @@ export default gql`
 
   input ConfigInput {
     id: ID
-    background: String
+    backgroundColor: String
     onWhite: Boolean
-    withConstellations: Boolean
-    withGrid: Boolean
-    withMoon: Boolean
+    isConstellation: Boolean
+    isGraticule: Boolean
+    isMilky: Boolean
     location: String
     date: String
-    text: String
+    topText: String
     bottomText: String
     latitude: String
     longitude: String

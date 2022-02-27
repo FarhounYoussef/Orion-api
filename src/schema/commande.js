@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express';
 export default gql`
   extend type Query {
     commandes(where: CommandeInput): [Commande!]
-    commande(id: ID!): Commande
+    commande(where: CommandeInput): Commande
   }
 
   extend type Mutation {
@@ -19,6 +19,7 @@ export default gql`
     price: Float
     client: Client
     config: Config
+    isDraft: Boolean
     commandeHistories: [CommandeHistory]
     createdAt: String
     updatedAt: String
@@ -31,5 +32,6 @@ export default gql`
     client: ClientInput
     config: ConfigInput
     preview64: String
+    isDraft: Boolean
   }
 `;

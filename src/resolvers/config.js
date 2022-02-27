@@ -36,6 +36,21 @@ export default {
       if (!user) {
         throw new ForbiddenError('Not authenticated as user.');
       }
+
+      const price = await models.Price.findOne({
+        where: { layout: data.layout, size: data.size },
+      });
+      const commandeInstance = await models.Commande.findOne({
+        where: { configId: id },
+      });
+      await commandeInstance.update(
+        {
+          price: price.dataValues.price,
+          ...data,
+        },
+        { context: { user } },
+      );
+
       const configInstance = await models.Config.findByPk(id);
       return configInstance.update(data, { context: { user } });
     },
